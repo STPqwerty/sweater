@@ -10,6 +10,11 @@
     </form>
 </div>
     <div>Список сообщений</div>
+<!--разметка для фильтра-->
+    <form method="post" action="filter">
+        <input type="text" name="filter">
+        <button type="submit">Найти</button>
+    </form>
     <!--проходим по списку сообщений-->
     {{#messages}}
         <div>
