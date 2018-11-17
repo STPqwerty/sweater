@@ -1,9 +1,6 @@
 package com.example.sweater.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class Message {
@@ -15,11 +12,20 @@ public class Message {
     private String text;
     private String tag;
 
-//конструктор без параметра, чтоб ничего не сломалось
+    @ManyToOne(fetch = FetchType.EAGER)//одному пользователю множнство сообщений
+    @JoinColumn(name = "user_id")
+    private User author;
+
+    private String getAuthorName(){
+        return author != null ? author.getUsername() : "<none>";
+    }
+
+    //конструктор без параметра, чтоб ничего не сломалось
     public Message() {
     }
 
-    public Message(String text, String tag) {
+    public Message(String text, String tag, User user) {
+        this.author = user;
         this.text = text;
         this.tag = tag;
     }
@@ -46,5 +52,13 @@ public class Message {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public User getAuthor() {
+        return author;
     }
 }
